@@ -6,9 +6,9 @@ Katalog produk dinamis berbasis PHP untuk tugas Pertemuan 7 Pemrograman Web.
 ## Cara Menjalankan
 
 1. Pastikan Laragon sudah aktif.
-2. Letakkan folder proyek di `C:/laragon/www/p07/katalog-umkm`.
+2. Letakkan folder proyek di `C:/laragon/www/Pertemuan 7/katalog-umkm`.
 3. Buka browser.
-4. Akses `http://localhost/p07/katalog-umkm/`.
+4. Akses `http://localhost/Pertemuan 7/katalog-umkm/`.
 
 ## Fitur
 
