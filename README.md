@@ -22,3 +22,11 @@ Katalog produk dinamis berbasis PHP untuk tugas Pertemuan 7 Pemrograman Web.
 - Menambahkan produk P07 kategori Kerajinan.
 - Menambahkan fungsi labelPromo() untuk produk dengan harga minimal Rp100.000.
 - Mengatur status stok menggunakan match(true).
+
+## Struktur File
+
+- `index.php` : Halaman utama katalog produk.
+- `data.php` : Menyimpan data produk UMKM.
+- `functions.php` : Menyimpan fungsi pengolahan data.
+- `style.css` : Mengatur tampilan halaman katalog.
+- `.gitignore` : Mengatur file yang tidak dimasukkan ke Git.
