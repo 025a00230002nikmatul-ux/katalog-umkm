@@ -16,4 +16,9 @@ Katalog produk dinamis berbasis PHP untuk tugas Pertemuan 7 Pemrograman Web.
 - Label stok menggunakan match(true).
 - Filter kategori melalui URL.
 - Menampilkan informasi produk dan harga.
-  
+
+## Tantangan HO-5
+
+- Menambahkan produk P07 kategori Kerajinan.
+- Menambahkan fungsi labelPromo() untuk produk dengan harga minimal Rp100.000.
+- Mengatur status stok menggunakan match(true).
