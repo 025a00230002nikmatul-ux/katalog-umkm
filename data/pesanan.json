@@ -1,0 +1,82 @@
+[
+    {
+        "kode": "PSN-0001",
+        "waktu": "2026-11-17 09:02",
+        "nama": "Siti",
+        "whatsapp": "081234567890",
+        "produk": "Keripik Tempe Original",
+        "harga": 15000,
+        "jumlah": 1,
+        "total": 15000,
+        "catatan": ""
+    },
+    {
+        "kode": "PSN-0002",
+        "waktu": "2026-11-17 09:03",
+        "nama": "Siti",
+        "whatsapp": "081234567890",
+        "produk": "Keripik Tempe Original",
+        "harga": 15000,
+        "jumlah": 1,
+        "total": 15000,
+        "catatan": ""
+    },
+    {
+        "kode": "PSN-0003",
+        "waktu": "2026-11-17 11:34",
+        "nama": "Siti",
+        "whatsapp": "081234567890",
+        "produk": "Keripik Tempe Original",
+        "harga": 15000,
+        "jumlah": 1,
+        "total": 15000,
+        "catatan": ""
+    },
+    {
+        "kode": "PSN-0004",
+        "waktu": "2026-11-17 11:51",
+        "nama": "Siti",
+        "whatsapp": "081234567890",
+        "produk": "Keripik Tempe Original",
+        "harga": 15000,
+        "jumlah": 1,
+        "total": 15000,
+        "catatan": ""
+    },
+    {
+        "kode": "PSN-0005",
+        "waktu": "2026-11-17 12:04",
+        "nama": "Siti",
+        "whatsapp": "081234567890",
+        "produk": "Keripik Tempe Original",
+        "harga": 15000,
+        "jumlah": 1,
+        "total": 15000,
+        "catatan": ""
+    },
+    {
+        "kode": "PSN-0006",
+        "waktu": "2026-11-17 16:37",
+        "nama": "Siti",
+        "whatsapp": "081234567890",
+        "alamat": "Jl. K.H Samanhudi, Purwosari, Kota Surakarta, Jawa Tengah 57149",
+        "produk": "Kopi Robusta Lereng Lawu",
+        "harga": 45000,
+        "jumlah": 1,
+        "total": 45000,
+        "catatan": ""
+    },
+    {
+        "kode": "PSN-0007",
+        "waktu": "2026-11-17 18:39",
+        "nama": "Siti",
+        "whatsapp": "081234567890",
+        "alamat": "Jl. K.H Samanhudi, Purwosari, Kota Surakarta, Jawa Tengah 57149",
+        "metode_pengambilan": "Ambil di toko",
+        "produk": "Kopi Robusta Lereng Lawu",
+        "harga": 45000,
+        "jumlah": 1,
+        "total": 45000,
+        "catatan": ""
+    }
+]

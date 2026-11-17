@@ -1,68 +1,87 @@
 <?php
 declare(strict_types=1);
 
-// ---------- 1. LOGIKA (di atas, sebelum HTML) ----------
-
 require __DIR__ . "/data.php";
 require __DIR__ . "/functions.php";
 
-$daftarKategori = ["Semua", "Makanan", "Minuman", "Fashion", "Kerajinan"];
+// ---------- 1. Tangkap parameter GET dari URL ----------
+// Contoh URL: index.php?q=kopi&kategori=Minuman
+$kataKunci = trim((string) filter_input(INPUT_GET, "q"));
+$kategoriDipilih = (string) filter_input(INPUT_GET, "kategori");
+$urut = (string) filter_input(INPUT_GET, "urut");
 
-// Ambil kategori dari URL, misal index.php?kategori=Minuman
-$kategoriDipilih = $_GET["kategori"] ?? "Semua";
-
+// ---------- 2. Validasi: kategori harus ada di daftar putih ----------
 if (!in_array($kategoriDipilih, $daftarKategori, true)) {
-    $kategoriDipilih = "Semua"; // tolak nilai yang tidak dikenal
+    $kategoriDipilih = "Semua";
 }
 
+// ---------- 3. Validasi: urutan harus ada di daftar putih ----------
+if (!in_array($urut, ["termurah", "termahal"], true)) {
+    $urut = "";
+}
+
+// ---------- 4. Olah data: filter kategori, lalu cari nama ----------
 $produkTampil = filterKategori($daftarProduk, $kategoriDipilih);
+$produkTampil = cariProduk($produkTampil, $kataKunci);
 
-$jumlahHabis = count(
-    array_filter(
-        $daftarProduk,
-        fn(array $p): bool => $p["stok"] === 0
-    )
-);
-
-$nilaiStok = hitungNilaiStok($daftarProduk);
-
+// ---------- 5. Urutkan berdasarkan harga ----------
+if ($urut === "termurah") {
+    usort($produkTampil, fn(array $a, array $b): int => $a["harga"] <=> $b["harga"]);
+} elseif ($urut === "termahal") {
+    usort($produkTampil, fn(array $a, array $b): int => $b["harga"] <=> $a["harga"]);
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katalog <?= e($namaToko) ?></title>
+    <title>Katalog · <?= e($namaToko) ?></title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+<header class="kepala">
+    <h1><?= e($namaToko) ?></h1>
+    <nav class="menu">
+        <a href="index.php" class="aktif">Katalog</a>
+        <a href="pesan.php">Pesan</a>
+        <a href="daftar-pesanan.php">Daftar Pesanan</a>
+    </nav>
+</header>
 
-    <header class="kepala">
-        <h1><?= e($namaToko) ?></h1>
+<main class="wadah">
+    <!-- Form pencarian: method GET agar hasilnya bisa di-bookmark dan dibagikan -->
+    <form action="index.php" method="get" class="cari">
+        <input type="search" name="q" placeholder="Cari produk..." value="<?= e($kataKunci) ?>">
 
-        <p>
-            <?= count($daftarProduk) ?> produk ·
-            <?= $jumlahHabis ?> habis ·
-            Nilai stok <?= formatRupiah($nilaiStok) ?>
-        </p>
-
-        <nav class="filter">
+        <select name="kategori">
             <?php foreach ($daftarKategori as $kategori): ?>
-                <a href="?kategori=<?= urlencode($kategori) ?>"
-                   class="<?= $kategori === $kategoriDipilih ? 'aktif' : '' ?>">
+                <option value="<?= e($kategori) ?>" <?= $kategori === $kategoriDipilih ? "selected" : "" ?>>
                     <?= e($kategori) ?>
-                </a>
+                </option>
             <?php endforeach; ?>
-        </nav>
-    </header>
+        </select>
 
-    <main class="grid">
+        <select name="urut">
+            <option value="">Urutkan</option>
+            <option value="termurah" <?= $urut === "termurah" ? "selected" : "" ?>>
+                Termurah
+            </option>
+            <option value="termahal" <?= $urut === "termahal" ? "selected" : "" ?>>
+                Termahal
+            </option>
+        </select>
 
+        <button type="submit">Cari</button>
+    </form>
+
+    <?php if ($kataKunci !== ""): ?>
+        <p class="info">Hasil pencarian "<?= e($kataKunci) ?>": <?= count($produkTampil) ?> produk.</p>
+    <?php endif; ?>
+
+    <section class="grid">
         <?php if (count($produkTampil) === 0): ?>
-            <p class="kosong">Belum ada produk di kategori ini.</p>
+            <p class="kosong">Produk tidak ditemukan.</p>
         <?php endif; ?>
 
         <?php foreach ($produkTampil as $produk): ?>
@@ -70,30 +89,20 @@ $nilaiStok = hitungNilaiStok($daftarProduk);
 
             <article class="kartu">
                 <span class="<?= kelasBadge($status) ?>"><?= $status ?></span>
-
                 <h2><?= e($produk["nama"]) ?></h2>
+                <p class="kategori"><?= e($produk["kategori"]) ?> · <?= e($produk["kode"]) ?></p>
+                <p class="harga"><?= formatRupiah($produk["harga"]) ?></p>
 
-                <p class="kategori">
-                    <?= e($produk["kategori"]) ?> · <?= e($produk["kode"]) ?>
-                </p>
-
-                <p class="harga">
-                    <?= formatRupiah($produk["harga"]) ?>
-                </p>
-
-                <?php if (labelPromo($produk["harga"]) !== ""): ?>
-                    <p><?= e(labelPromo($produk["harga"])) ?></p>
+                <?php if ($produk["stok"] > 0): ?>
+                    <a class="tombol" href="pesan.php?produk=<?= urlencode($produk["kode"]) ?>">Pesan</a>
                 <?php endif; ?>
-
-                <p class="stok">Stok: <?= $produk["stok"] ?></p>
             </article>
         <?php endforeach; ?>
+    </section>
+</main>
 
-    </main>
-
-    <footer class="kaki">
-        <p>&copy; <?= date("Y") ?> Pemrograman Web · Informatika TSU</p>
-    </footer>
-
+<footer class="kaki">
+    <p>&copy; <?= date("Y") ?> Pemrograman Web · Informatika TSU</p>
+</footer>
 </body>
 </html>
